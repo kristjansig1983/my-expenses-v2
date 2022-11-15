@@ -1,63 +1,106 @@
-import { useState, useRef } from 'react';
-import './App.css';
+import { useState, useRef } from 'react'
+import './App.css'
+import styled, { css } from 'styled-components'
 
 const App = () => {
-  const [objectList, setObjectList] = useState([]);
+  const [objectList, setObjectList] = useState([])
 
-  const nameValue = useRef('');
-  const valueValue = useRef('');
+  const nameValue = useRef('')
+  const valueValue = useRef('')
 
   const handleClick = () => {
     setObjectList((list) => [
       ...list,
       { name: nameValue.current, value: valueValue.current },
-    ]);
-  };
+    ])
+  }
 
   return (
-    <div className='App'>
-      <div
-        style={{
-          fontSize: '18px',
-          color: 'azure',
-        }}
-      >
-        <div style={{ display: 'flex', margin: 20 }}>
+    <Page>
+      <Form>
+        <Input>
           <p>Name: </p>
-          <input
+          <Field
             onChange={(event) => {
-              nameValue.current = event.target.value;
+              nameValue.current = event.target.value
             }}
           />
-        </div>
-        <div style={{ display: 'flex', margin: 20 }}>
+        </Input>
+        <Input>
           <p>Value: </p>
-          <input
+          <Field
             onChange={(event) => {
-              valueValue.current = event.target.value;
+              valueValue.current = event.target.value
             }}
           />
-        </div>
-        <button type='button' onClick={handleClick}>
+        </Input>
+        <Button type='button' onClick={handleClick}>
           Submit!
-        </button>
-      </div>
-      <div style={{ color: 'white' }}>
-        <p>List:</p>
-        <p>[{objectList.map((item) => `${item.name}, `)}]</p>
-      </div>
-      <div style={{ color: 'white' }}>
-        <p>Sum:</p>
-        <p>
-          {objectList.reduce(
-            (previousValue, currentValue) =>
-              previousValue + Number(currentValue.value),
-            0
-          )}
-        </p>
-      </div>
-    </div>
-  );
-};
+        </Button>
+      </Form>
+      <List>
+        <Items>
+          <p>List:</p>
+          <p>[{objectList.map((item) => `${item.name}, `)}]</p>
+        </Items>
+        <Items>
+          <p>Sum:</p>
+          <p>
+            {objectList.reduce(
+              (previousValue, currentValue) =>
+                previousValue + Number(currentValue.value),
+              0
+            )}
+          </p>
+        </Items>
+      </List>
+    </Page>
+  )
+}
 
-export default App;
+const Page = styled.div`
+  text-align: center;
+  background-color: #282c34;
+  justify-content: space-evenly;
+  align-items: center;
+  display: flex;
+  height: 100vh;
+`
+
+const Field = styled.input`
+  height: 20px;
+  width: 200px;
+  display: flex;
+  justify-items: right;
+`
+const Form = styled.div`
+  flex-direction: column;
+  font-size: 18px;
+  color: azure;
+  margin-left: 20px;
+  margin-right: 100px;
+`
+const Button = styled.button`
+  height: 30px;
+  width: 200px;
+  margin-top: 8px;
+  background-color: blue;
+  align-content: right;
+`
+
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: white;
+`
+const Items = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-content: right;
+`
+const Input = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+export default App
