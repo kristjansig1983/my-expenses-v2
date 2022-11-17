@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import './App.css'
 import styled, { css } from 'styled-components'
+import ReactTransitinGroup from 'react-transition-group'
 
 const App = () => {
   const [objectList, setObjectList] = useState([])
@@ -13,6 +14,10 @@ const App = () => {
       ...list,
       { name: nameValue.current, value: valueValue.current },
     ])
+  }
+
+  const removeItem = (id) => {
+    setObjectList(objectList.filter((el) => el.id !== id))
   }
 
   return (
@@ -38,23 +43,31 @@ const App = () => {
           Submit!
         </Button>
       </Form>
-      <Card>
-        <Items>
-          <p>List:</p>
-          <p>[{objectList.map((item) => `${item.name + item.value}, `)}]</p>
-        </Items>
-        <Items>
-          <p>Sum:</p>
-          <p>
-            {objectList.reduce(
-              (previousValue, currentValue) =>
-                previousValue + Number(currentValue.value),
-              0
-            )}
-          </p>
-        </Items>
-        <Delete type='button'></Delete>
-      </Card>
+      <Cardlist>
+        {objectList.map((item, id) => (
+          <Card key={id}>
+            <Items>
+              <p>{item.name} </p>
+            </Items>
+            <Items>
+              <p>{item.value}</p>
+            </Items>
+            <Delete type='button' onClick={() => removeItem(item.id)}>
+              Delete
+            </Delete>
+          </Card>
+        ))}
+      </Cardlist>
+      <Items>
+        <p>Sum:</p>
+        <p>
+          {objectList.reduce(
+            (previousValue, currentValue) =>
+              previousValue + Number(currentValue.value),
+            0
+          )}
+        </p>
+      </Items>
     </Page>
   )
 }
@@ -98,6 +111,7 @@ const Items = styled.div`
   display: flex;
   flex-direction: row;
   align-content: right;
+  color: white;
 `
 const Input = styled.div`
   display: flex;
@@ -106,28 +120,26 @@ const Input = styled.div`
 `
 
 const Card = styled.div`
-  background-color: #fff;
+  background-color: blueviolet;
   box-shadow: var(--box-shadow);
   color: #333;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
   position: relative;
   padding: 10px;
   margin: 10px 0;
+  border-radius: 10px;
+  height: 100px;
+  width: 300px;
+  font-size: x-large;
 `
 const Delete = styled.button`
-  cursor: pointer;
-  background-color: #e74c3c;
-  border: 0;
-  color: #fff;
-  font-size: 20px;
-  line-height: 20px;
-  padding: 2px 5px;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(-100%, -50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  width: 60px;
+  height: 20px;
+`
+const Cardlist = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 export default App
