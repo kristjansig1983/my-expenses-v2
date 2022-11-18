@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import './App.css'
 import styled, { css } from 'styled-components'
-import ReactTransitinGroup from 'react-transition-group'
 
 const App = () => {
   const [objectList, setObjectList] = useState([])
@@ -14,10 +13,6 @@ const App = () => {
       ...list,
       { name: nameValue.current, value: valueValue.current },
     ])
-  }
-
-  const removeItem = (id) => {
-    setObjectList(objectList.filter((el) => el.id !== id))
   }
 
   return (
@@ -44,15 +39,20 @@ const App = () => {
         </Button>
       </Form>
       <Cardlist>
-        {objectList.map((item, id) => (
-          <Card key={id}>
+        {objectList.map((item) => (
+          <Card key={objectList.id}>
             <Items>
               <p>{item.name} </p>
             </Items>
             <Items>
               <p>{item.value}</p>
             </Items>
-            <Delete type='button' onClick={() => removeItem(item.id)}>
+            <Delete
+              type='button'
+              onClick={() =>
+                setObjectList(objectList.filter((l) => l.id !== item.id))
+              }
+            >
               Delete
             </Delete>
           </Card>
