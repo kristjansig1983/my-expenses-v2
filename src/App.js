@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import './App.css'
 import styled, { css } from 'styled-components'
+import { v4 as uuid } from 'uuid'
 
 const App = () => {
   const [objectList, setObjectList] = useState([])
@@ -11,7 +12,7 @@ const App = () => {
   const handleClick = () => {
     setObjectList((list) => [
       ...list,
-      { name: nameValue.current, value: valueValue.current },
+      { key: uuid(), name: nameValue.current, value: valueValue.current },
     ])
   }
 
@@ -50,7 +51,7 @@ const App = () => {
             <Delete
               type='button'
               onClick={() =>
-                setObjectList(objectList.filter((l) => l.id !== item.id))
+                setObjectList((li) => li.filter((i) => i.key !== item.key))
               }
             >
               Delete
@@ -99,7 +100,7 @@ const Button = styled.button`
   width: 200px;
   margin-top: 8px;
   background-color: blue;
-  align-content: right;
+  align-self: center;
 `
 
 const List = styled.div`
